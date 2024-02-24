@@ -2,9 +2,12 @@ import subprocess
 import speech_recognition as sr
 import pyautogui
 import pyttsx3
+import PyPDF2
+import fitz
 import os
 
 current_file = None
+opened_files = {}
 
 def listen_for_command():
     recognizer = sr.Recognizer()
@@ -31,13 +34,25 @@ def read_file():
     global current_file
     if current_file:
         try:
-            with open(current_file, "r") as file:
-                file_content = file.read()
-                print("Reading file content for", current_file)
-                tts = pyttsx3.init()
-                tts.setProperty('rate', 155) # Adjust the speed (rate) of the speech
-                tts.say(file_content)
-                tts.runAndWait()
+            if current_file.lower().endswith(".pdf"):
+                with open(current_file,"rb") as pdf:
+                    reader = PyPDF2.PdfReader(pdf,strict=False)
+                    pdf_text = []
+
+                    for page in reader.pages:
+                        content = page.extract_text()
+                        tts = pyttsx3.init()
+                        tts.say(content)
+                        tts.runAndWait()
+                    
+
+            else:
+                with open(current_file, "r") as file:
+                    file_content = file.read()
+                    print("Reading file content for", current_file)
+                    tts = pyttsx3.init()
+                    tts.say(file_content)
+                    tts.runAndWait()
         except FileNotFoundError:
             print("File not found:", current_file)
     else:
@@ -47,17 +62,23 @@ def read_file():
 
 def open_file(filename):
     global current_file
+    global current_file
     try:
         if current_file:
-            close_file() # Close the current file if one is already open
-        if not os.path.exists(filename):  # Check if the file exists
-            with open(filename, 'w'):
-                pass  # Create an empty file if it doesn't exist
-        process = subprocess.Popen(["notepad.exe", filename])
-        print("File opened successfully:", filename)
-        current_file = filename
-    except Exception as e:
-        print("Error opening file:", e)
+            close_file(current_file)
+        if filename.lower().endswith(".pdf"):
+            document = fitz.open(filename)
+            os.startfile(filename)
+            print("PDF file opened successfully:", filename)
+            current_file = filename
+            opened_files[filename] = document
+        else:
+            process = subprocess.Popen(["notepad.exe", filename])
+            print("File opened successfully:", filename)
+            current_file = filename
+            opened_files[filename] = process  # Store the subprocess in opened_files dictionary
+    except FileNotFoundError:
+        print("File not found:", filename)
   
 
 def close_file():
@@ -147,7 +168,15 @@ def main():
     while True:
         command = listen_for_command()
 
-        if command.startswith("open"):
+        if command.startswith("open pdf"):
+            filename = command.split(" ")[2] if len(command.split(" ")) > 2 else None
+            if filename:
+                filename = filename + ".pdf" if not filename.endswith(".pdf") else filename
+                open_file(filename)
+            else:
+                print("Please provide a PDF filename to open.")
+        
+        elif command.startswith("open"):
             filename = command.split(" ")[1] if len(command.split(" ")) > 1 else None
             if filename:
                 filename = filename + ".txt" if not filename.endswith(".txt") else filename
