@@ -2,6 +2,7 @@ import subprocess
 import speech_recognition as sr
 import pyautogui
 import pyttsx3
+import os
 
 current_file = None
 opened_files = {}
@@ -74,6 +75,13 @@ def close_file(filename=None):
     else:
         print("File is not opened:", filename)
 
+def delete_file(filename):
+    try:
+        os.remove(filename)
+        print("File", filename, "deleted successfully.")
+    except FileNotFoundError:
+        print("File", filename, "not found.")
+
 
 def scroll_up():
     pyautogui.press('pageup')  # Scroll up 3 steps (adjust as needed)
@@ -114,6 +122,13 @@ def main():
 
         elif command.startswith("read"):
             read_file()
-             
+        elif command.startswith("delete"):
+            filename = command.split(" ")[1] if len(command.split(" ")) > 1 else None
+            if filename:
+                filename = filename + ".txt" if not filename.endswith(".txt") else filename
+                delete_file(filename)
+            else:
+                print("Please provide a filename to delete.")
+                
 if __name__ == "__main__":
     main()
