@@ -33,6 +33,8 @@ def read_file():
                 file_content = file.read()
                 print("Reading file content for", current_file)
                 tts = pyttsx3.init()
+                # Adjust the speed (rate) of the speech
+                tts.setProperty('rate', 155)
                 tts.say(file_content)
                 tts.runAndWait()
         except FileNotFoundError:
