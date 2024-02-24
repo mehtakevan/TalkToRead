@@ -1,6 +1,7 @@
 import subprocess
 import speech_recognition as sr
 import pyautogui
+import pyttsx3
 
 current_file = None
 opened_files = {}
@@ -24,6 +25,20 @@ def listen_for_command():
         except sr.RequestError:
             print("Sorry, I couldn't request results from the speech recognition service.")
 
+def read_file():
+    global current_file
+    if current_file:
+        try:
+            with open(current_file, "r") as file:
+                file_content = file.read()
+                print("Reading file content for", current_file)
+                tts = pyttsx3.init()
+                tts.say(file_content)
+                tts.runAndWait()
+        except FileNotFoundError:
+            print("File not found:", current_file)
+    else:
+        print("No file currently opened.")
 
 def open_file(filename):
     global current_file
@@ -95,6 +110,8 @@ def main():
         elif command.startswith("stop"):
             stop_script()
 
-
+        elif command.startswith("read"):
+            read_file()
+             
 if __name__ == "__main__":
     main()
