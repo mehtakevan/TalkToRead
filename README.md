@@ -1,2 +1,2 @@
-Our project aims to empower the handicapped and visually impaired by providing a versatile file management tool. With our solution, users can effortlessly read, open, close, append, and write both .txt and .pdf files. By enabling access to digital content, we're breaking down barriers and fostering independence for all.
-Just one script can change the lives of many, our main aim to develop this script.
+Our project aims to empower the handicapped and visually impaired by providing a versatile file management tool. With our solution, users can effortlessly read, open, close, append, and write both .txt and .pdf files. By enabling access to digital content, we're breaking down barriers and fostering independence for all.Our main aim to develop this script is that 
+Just one script can change the lives of many.
