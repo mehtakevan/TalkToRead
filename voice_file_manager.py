@@ -6,7 +6,15 @@ import PyPDF2
 import fitz # pip install PyMuPDF
 import os
 import shutil
+import sys
+from sumy.parsers.plaintext import PlaintextParser
+from sumy.nlp.tokenizers import Tokenizer
+from sumy.summarizers.lsa import LsaSummarizer
+from sumy.nlp.stemmers import Stemmer
+from sumy.utils import get_stop_words
 
+LANGUAGE = "english"
+SENTENCES_COUNT = 3  # Number of sentences in the summary
 current_file = None
 current_directory = os.getcwd()  # Get the current working directory
 
@@ -84,6 +92,26 @@ def append_file(text):
 def save_file(filename):
     pyautogui.hotkey('ctrl', 's')  # Send Ctrl + S to save the file in Notepad
     print("File saved successfully.")
+
+def summarize_file():
+    if current_file.endswith('.txt'):
+        parser = PlaintextParser.from_file(current_file, Tokenizer(LANGUAGE))
+    else:
+        raise ValueError("Unsupported file format")
+
+    stemmer = Stemmer(LANGUAGE)
+    summarizer = LsaSummarizer(stemmer)
+    summarizer.stop_words = get_stop_words(LANGUAGE)
+
+    summary = []
+    for sentence in summarizer(parser.document, SENTENCES_COUNT):
+        summary.append(str(sentence))
+
+    text = ' '.join(summary)
+    print(text)
+    tts = pyttsx3.init()
+    tts.say(text)
+    tts.runAndWait()
 
 
 def open_file_pdf(filename):
