@@ -19,9 +19,9 @@ Our project aims to empower the handicapped and visually impaired by providing a
 | **Function** | **Speech Commands** |
 |-------|-----|
 | Open Text File | open file {name}  | 
-| Read Text File | read file {name} |
+| Read Text File | read |
 | Delete Text File   | delete file {name}  | 
-| Close Text File | close file {name}  |
+| Close Text File | close  |
 | Create Text File | create file {name}  |
 | Rename Text File | rename {old} {new}  |
 | Write in Text File | write {text}  |
@@ -29,13 +29,14 @@ Our project aims to empower the handicapped and visually impaired by providing a
 | Scroll Up | Scroll Up  |
 | Scroll Down | Scroll Down  |
 | Open PDF File | open pdf {name} |
-| Close PDF File | close pdf {name} |
+| Close PDF File | close |
 | Delete PDF File | delete pdf {name} |
 | Read PDF File | read pdf {name} |
 | Open Image | open image {name} |
-| Close Image | close image {name} |
+| Close Image | close |
 | Delete Image | delete image {name} |
 | Play Audio | play audio {name} |
+| Close Audio file | stop audio |
 | Pause Audio | pause  |
 | Continue Audio | continue |
 | Open Folder | open folder {name} |
@@ -43,9 +44,12 @@ Our project aims to empower the handicapped and visually impaired by providing a
 | Go Back | go back |
 | List the files | list |
 | Make New Folder | make folder {name} |
+| Exit the application | goodbye |
 
-
-
+# **Platforms supported:**
+- Windows
+- Linux
+- MacOS
 
 # **Dependencies**
 - speech_recognition
@@ -56,9 +60,10 @@ Our project aims to empower the handicapped and visually impaired by providing a
 - sumy
 - PIL
 - pygame
+
 # **Usage**
 - Install the required dependencies using pip install -r requirements.txt.
 - Run the script using python voice_file_manager.py.
-- Speak commands to interact with the file manager (e.g., "Open example.txt", "Create file new.txt", "Play audio music.mp3", "Read example.pdf").
+- Speak commands to interact with the file manager (e.g., "Open file example.txt", "Create file new.txt", "Play audio music.mp3", "Read").
 # **Note**
 This script is designed for Windows operating systems and may require adjustments for use on other platforms.
