@@ -1,0 +1,8 @@
+speech_recognition
+pyautogui
+pyttsx3
+PyPDF2
+fitz (PyMuPDF)
+sumy
+PIL
+pygame
