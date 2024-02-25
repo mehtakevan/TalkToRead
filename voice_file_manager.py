@@ -505,6 +505,10 @@ def main():
         elif command.startswith("pause"):
             pause_audio()
 
+        #summarise the file
+        elif command.startswith("summarise"):
+            summarize_file()
+
         elif command.startswith("continue"): 
             resume_audio()     
 
